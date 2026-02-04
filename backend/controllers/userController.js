@@ -10,6 +10,13 @@ export const getAllUsers = async (req, res) => {
 
     const filter = {};
 
+    // Customer Manager can ONLY see customers
+    if (req.user.role === 'CUSTOMER_MANAGER') {
+      filter.role = 'CUSTOMER';
+    } else if (role) {
+      filter.role = role;
+    }
+
     // Default to active users only if not specified
     if (isActive === undefined) {
       filter.isActive = true;
@@ -17,13 +24,6 @@ export const getAllUsers = async (req, res) => {
       filter.isActive = true;
     } else if (isActive === 'false') {
       filter.isActive = false;
-    }
-    // If we want all users (active and inactive), we might need another flag or just omit this logic if we want default all. 
-    // But user wants "delete" to work visually. 
-    // Let's stick to: if undefined -> active=true. 
-
-    if (role) {
-      filter.role = role;
     }
 
     if (search) {
@@ -69,6 +69,14 @@ export const getUser = async (req, res) => {
       });
     }
 
+    // Customer Manager can only view customers
+    if (req.user.role === 'CUSTOMER_MANAGER' && user.role !== 'CUSTOMER') {
+      return res.status(403).json({
+        success: false,
+        message: 'Access denied: You can only view Customer profiles'
+      });
+    }
+
     res.status(200).json({
       success: true,
       data: user
@@ -88,14 +96,31 @@ export const getUser = async (req, res) => {
 // @access  Private/Super Admin
 export const createUser = async (req, res) => {
   try {
-    const { name, role, password } = req.body;
+    let { name, role, password } = req.body;
     const email = req.body.email ? req.body.email.toLowerCase() : '';
+
+    // Customer Manager can ONLY create Customers
+    if (req.user.role === 'CUSTOMER_MANAGER') {
+      if (role && role !== 'CUSTOMER') {
+        return res.status(403).json({
+          success: false,
+          message: 'Access denied: You can only create Customer accounts'
+        });
+      }
+      role = 'CUSTOMER';
+    }
 
     console.log('API: Creating user with data:', { name, email, role, passwordProvided: !!password });
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
+      // ... (reactivation logic omitted for brevity in replacement, but I should copy it if I replace the whole function)
+      // I will implement safer replacement chunk by chunk or full function.
+      // Since I'm replacing chunks, I will do full block replacements.
+      // Wait, replacement tool replaces the *TargetContent* with *ReplacementContent*.
+      // I should be careful not to delete logic.
+
       console.log('API: User exists. Active status:', existingUser.isActive);
       if (existingUser.isActive) {
         return res.status(400).json({
@@ -109,7 +134,8 @@ export const createUser = async (req, res) => {
 
       existingUser.name = name;
       existingUser.password = finalPassword;
-      existingUser.role = role || 'VIEW_ONLY';
+      // If Customer Manager, force role to CUSTOMER
+      existingUser.role = (req.user.role === 'CUSTOMER_MANAGER') ? 'CUSTOMER' : (role || 'VIEW_ONLY');
       existingUser.isActive = true;
       existingUser.createdBy = req.user.id;
 
@@ -171,6 +197,7 @@ export const createUser = async (req, res) => {
   }
 };
 
+
 // @desc    Update user
 // @route   PUT /api/users/:id
 // @access  Private/Super Admin
@@ -194,6 +221,23 @@ export const updateUser = async (req, res) => {
         message: 'User not found'
       });
     }
+
+    // Customer Manager check
+    if (req.user.role === 'CUSTOMER_MANAGER') {
+      if (user.role !== 'CUSTOMER') {
+        return res.status(403).json({
+          success: false,
+          message: 'Access denied: You can only update Customer accounts'
+        });
+      }
+      if (role && role !== 'CUSTOMER') {
+        return res.status(403).json({
+          success: false,
+          message: 'Access denied: You cannot change a user role to something other than Customer'
+        });
+      }
+    }
+
 
     // Prevent deactivating or changing role of the last Super Admin
     if (user.role === 'SUPER_ADMIN' && (role !== 'SUPER_ADMIN' || isActive === false)) {
@@ -247,6 +291,14 @@ export const deleteUser = async (req, res) => {
       return res.status(404).json({
         success: false,
         message: 'User not found'
+      });
+    }
+
+    // Customer Manager check
+    if (req.user.role === 'CUSTOMER_MANAGER' && user.role !== 'CUSTOMER') {
+      return res.status(403).json({
+        success: false,
+        message: 'Access denied: You can only delete Customer accounts'
       });
     }
 

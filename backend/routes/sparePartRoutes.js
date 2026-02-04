@@ -15,14 +15,14 @@ import upload from '../middleware/upload.js';
 
 const router = express.Router();
 
+// Protected routes - require authentication (MUST BE BEFORE :id)
+router.get('/stats', protect, getInventoryStats);
+router.get('/alerts/low-stock', protect, getLowStockAlerts);
+
 // Public routes
 router.get('/', getAllSpareParts);
 router.get('/part-number/:partNumber', getSparePartByPartNumber);
 router.get('/:id', getSparePart);
-
-// Protected routes - require authentication
-router.get('/stats', protect, getInventoryStats);
-router.get('/alerts/low-stock', protect, getLowStockAlerts);
 
 // Admin and above can create/update
 router.post('/', protect, authorize('SUPER_ADMIN', 'ADMIN', 'INVENTORY_STAFF'), upload.single('image'), createSparePart);

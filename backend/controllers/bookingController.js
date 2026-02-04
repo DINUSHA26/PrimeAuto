@@ -261,6 +261,14 @@ export const getAllBookings = async (req, res) => {
   try {
     const { status, date, bayNumber, email } = req.query;
 
+    // Customer Manager restriction
+    if (req.user.role === 'CUSTOMER_MANAGER' && !req.query.userId) {
+      return res.status(403).json({
+        success: false,
+        message: 'Access denied: Customer Managers must specify a user ID'
+      });
+    }
+
     const filter = {};
 
     if (status) {
@@ -281,6 +289,10 @@ export const getAllBookings = async (req, res) => {
 
     if (email) {
       filter.customerEmail = email.toLowerCase();
+    }
+
+    if (req.query.userId) {
+      filter.user = req.query.userId;
     }
 
     const bookings = await Booking.find(filter)
@@ -317,7 +329,7 @@ export const getBooking = async (req, res) => {
     }
 
     // Check if booking belongs to user or user is admin
-    if (booking.user && booking.user.toString() !== req.user._id.toString() && req.user.role !== 'SUPER_ADMIN' && req.user.role !== 'ADMIN') {
+    if (booking.user && booking.user.toString() !== req.user._id.toString() && req.user.role !== 'SUPER_ADMIN' && req.user.role !== 'ADMIN' && req.user.role !== 'CUSTOMER_MANAGER') {
       return res.status(403).json({
         success: false,
         message: 'Not authorized to view this booking'

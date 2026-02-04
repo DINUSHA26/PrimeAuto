@@ -38,21 +38,23 @@ const UsersList = () => {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {users && users.length > 0 ? (
-              users.map((user) => (
-                <tr key={user._id}>
-                  <td className="px-6 py-4 whitespace-nowrap">{user.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                      {user.role}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <Link to={`/admin/users/edit/${user._id}`} className="text-indigo-600 hover:text-indigo-900 mr-4">Edit</Link>
-                    <button onClick={() => handleDelete(user._id)} className="text-red-600 hover:text-red-900">Delete</button>
-                  </td>
-                </tr>
-              ))
+              users
+                .filter(user => user.role !== 'CUSTOMER')
+                .map((user) => (
+                  <tr key={user._id}>
+                    <td className="px-6 py-4 whitespace-nowrap">{user.name}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                        {user.role}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <Link to={`/admin/users/edit/${user._id}`} className="text-indigo-600 hover:text-indigo-900 mr-4">Edit</Link>
+                      <button onClick={() => handleDelete(user._id)} className="text-red-600 hover:text-red-900">Delete</button>
+                    </td>
+                  </tr>
+                ))
             ) : (
               <tr>
                 <td colSpan="4" className="px-6 py-4 text-center">No users found.</td>

@@ -23,7 +23,7 @@ router.get('/:id', protect, getBooking);
 router.delete('/:id', protect, cancelBooking);
 
 // Admin routes
-router.get('/', protect, authorize('ADMIN', 'SUPER_ADMIN'), getAllBookings);
+router.get('/', protect, authorize('ADMIN', 'SUPER_ADMIN', 'CUSTOMER_MANAGER'), getAllBookings);
 router.patch('/:id/status', protect, authorize('ADMIN', 'SUPER_ADMIN'), updateBookingStatus);
 router.get('/schedule/:date', protect, authorize('ADMIN', 'SUPER_ADMIN'), getBaySchedule);
 

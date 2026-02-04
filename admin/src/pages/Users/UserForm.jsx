@@ -161,6 +161,7 @@ const UserForm = () => {
             >
               <option value="SUPER_ADMIN">Super Admin</option>
               <option value="ADMIN">Admin</option>
+              <option value="CUSTOMER_MANAGER">Customer Manager</option>
               <option value="SERVICE_MANAGER">Service Manager</option>
               <option value="INVENTORY_STAFF">Inventory Staff</option>
               <option value="VIEW_ONLY">View Only</option>

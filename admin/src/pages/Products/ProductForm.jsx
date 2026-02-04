@@ -16,7 +16,7 @@ const ProductForm = () => {
     partNumber: '',
     name: '',
     description: '',
-    category: 'other',
+    category: '', // Changed from 'other' to ''
     brand: '',
     price: 0,
     costPrice: 0,
@@ -31,7 +31,45 @@ const ProductForm = () => {
   });
 
   const isEditMode = !!id;
-  const categories = ['engine', 'transmission', 'brakes', 'suspension', 'electrical', 'body', 'filters', 'fluids', 'other'];
+  const [availableCategories, setAvailableCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const [statsRes, categoriesRes] = await Promise.all([
+          productService.getInventoryStats(),
+          productService.getCategories()
+        ]);
+
+        let allCats = [];
+
+        // Add Created Categories
+        if (categoriesRes.data) {
+          allCats = categoriesRes.data.map(c => c.name);
+        }
+
+        // Add Used Categories (if not already in list)
+        if (statsRes.data && statsRes.data.categoryCounts) {
+          const usedCats = statsRes.data.categoryCounts.map(c => c._id);
+          allCats = [...allCats, ...usedCats];
+        }
+
+        // Default categories if nothing exists
+        if (allCats.length === 0) {
+          allCats = ['engine', 'transmission', 'brakes', 'suspension', 'electrical', 'body', 'filters', 'fluids'];
+        }
+
+        // Unique and Sort
+        const uniqueCategories = [...new Set(allCats)].sort();
+        setAvailableCategories(uniqueCategories);
+
+      } catch (error) {
+        console.error('Failed to fetch categories', error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -208,16 +246,21 @@ const ProductForm = () => {
 
           <div>
             <label className="block text-sm font-medium text-gray-700">Category *</label>
-            <select
+            <input
+              type="text"
               name="category"
               value={formData.category}
               onChange={handleChange}
+              list="category-options"
+              required
+              placeholder="Select or type a category"
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-blue-500 focus:border-blue-500 capitalize"
-            >
-              {categories.map(cat => (
-                <option key={cat} value={cat} className="capitalize">{cat}</option>
+            />
+            <datalist id="category-options">
+              {availableCategories.map(cat => (
+                <option key={cat} value={cat} />
               ))}
-            </select>
+            </datalist>
           </div>
 
           <div>

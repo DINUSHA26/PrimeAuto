@@ -53,7 +53,7 @@ export const getOrderById = async (req, res) => {
 
         if (order) {
             // Check if order belongs to user or user is admin
-            if (order.user._id.toString() !== req.user._id.toString() && req.user.role !== 'SUPER_ADMIN' && req.user.role !== 'ADMIN') {
+            if (order.user._id.toString() !== req.user._id.toString() && req.user.role !== 'SUPER_ADMIN' && req.user.role !== 'ADMIN' && req.user.role !== 'CUSTOMER_MANAGER') {
                 return res.status(403).json({
                     success: false,
                     message: 'Not authorized to view this order'
@@ -103,7 +103,24 @@ export const getMyOrders = async (req, res) => {
 // @access  Private/Admin
 export const getAllOrders = async (req, res) => {
     try {
-        const orders = await Order.find({}).populate('user', 'id name email').sort({ createdAt: -1 });
+        const { userId } = req.query;
+
+        // Customer Manager restriction
+        if (req.user.role === 'CUSTOMER_MANAGER') {
+            if (!userId) {
+                return res.status(403).json({
+                    success: false,
+                    message: 'Access denied: Customer Managers must specify a user ID'
+                });
+            }
+        }
+
+        const filter = {};
+        if (userId) {
+            filter.user = userId;
+        }
+
+        const orders = await Order.find(filter).populate('user', 'id name email').sort({ createdAt: -1 });
         res.status(200).json({
             success: true,
             data: orders

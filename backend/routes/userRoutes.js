@@ -14,13 +14,13 @@ const router = express.Router();
 // All routes require authentication
 router.use(protect);
 
-// Super Admin only routes
-router.get('/', authorize('SUPER_ADMIN'), getAllUsers);
-router.post('/', authorize('SUPER_ADMIN'), createUser);
-router.delete('/:id', authorize('SUPER_ADMIN'), deleteUser);
-router.post('/:id/reset-password', authorize('SUPER_ADMIN'), resetPassword);
+// Super Admin, Admin and Customer Manager routes
+router.get('/', authorize('SUPER_ADMIN', 'ADMIN', 'CUSTOMER_MANAGER'), getAllUsers);
+router.post('/', authorize('SUPER_ADMIN', 'ADMIN', 'CUSTOMER_MANAGER'), createUser);
+router.delete('/:id', authorize('SUPER_ADMIN', 'ADMIN', 'CUSTOMER_MANAGER'), deleteUser);
+router.post('/:id/reset-password', authorize('SUPER_ADMIN', 'ADMIN'), resetPassword);
 
-// Super Admin and the user themselves can view/update
+// Super Admin, Admin, Customer Manager, and the user themselves can view/update
 router.get('/:id', getUser);
 router.put('/:id', updateUser);
 

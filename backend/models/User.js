@@ -25,12 +25,13 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['SUPER_ADMIN', 'ADMIN', 'SERVICE_MANAGER', 'INVENTORY_STAFF', 'VIEW_ONLY', 'CUSTOMER'],
+    enum: ['SUPER_ADMIN', 'ADMIN', 'CUSTOMER_MANAGER', 'SERVICE_MANAGER', 'INVENTORY_STAFF', 'VIEW_ONLY', 'CUSTOMER'],
     default: 'CUSTOMER'
   },
 
   permissions: {
     canManageUsers: { type: Boolean, default: false },
+    canManageCustomers: { type: Boolean, default: false },
     canManageProducts: { type: Boolean, default: false },
     canManageServices: { type: Boolean, default: false },
     canManageBookings: { type: Boolean, default: false },
@@ -70,6 +71,7 @@ userSchema.pre('save', function () {
     case 'SUPER_ADMIN':
       this.permissions = {
         canManageUsers: true,
+        canManageCustomers: true,
         canManageProducts: true,
         canManageServices: true,
         canManageBookings: true,
@@ -79,7 +81,8 @@ userSchema.pre('save', function () {
       break;
     case 'ADMIN':
       this.permissions = {
-        canManageUsers: false,
+        canManageUsers: true,
+        canManageCustomers: true,
         canManageProducts: true,
         canManageServices: true,
         canManageBookings: true,
@@ -87,9 +90,21 @@ userSchema.pre('save', function () {
         canViewReports: true
       };
       break;
+    case 'CUSTOMER_MANAGER':
+      this.permissions = {
+        canManageUsers: false,
+        canManageCustomers: true,
+        canManageProducts: false,
+        canManageServices: false,
+        canManageBookings: false, // Access to booking history is likely read-only via customer details, not general management
+        canDeleteProducts: false,
+        canViewReports: false
+      };
+      break;
     case 'SERVICE_MANAGER':
       this.permissions = {
         canManageUsers: false,
+        canManageCustomers: false,
         canManageProducts: false,
         canManageServices: true,
         canManageBookings: true,
@@ -100,6 +115,7 @@ userSchema.pre('save', function () {
     case 'INVENTORY_STAFF':
       this.permissions = {
         canManageUsers: false,
+        canManageCustomers: false,
         canManageProducts: true,
         canManageServices: false,
         canManageBookings: false,
@@ -110,6 +126,7 @@ userSchema.pre('save', function () {
     case 'VIEW_ONLY':
       this.permissions = {
         canManageUsers: false,
+        canManageCustomers: false,
         canManageProducts: false,
         canManageServices: false,
         canManageBookings: false,
@@ -120,6 +137,7 @@ userSchema.pre('save', function () {
     case 'CUSTOMER':
       this.permissions = {
         canManageUsers: false,
+        canManageCustomers: false,
         canManageProducts: false,
         canManageServices: false,
         canManageBookings: false,

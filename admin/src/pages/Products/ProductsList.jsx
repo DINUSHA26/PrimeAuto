@@ -1,10 +1,28 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useProducts } from '../../hooks/useProducts';
 import { toast } from 'react-toastify';
+import { FaTimes } from 'react-icons/fa';
 
 const ProductsList = () => {
-  const { products, loading, error, deleteProduct } = useProducts();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const categoryFilter = searchParams.get('category');
+  const { products, loading, error, deleteProduct, fetchProducts } = useProducts();
+
+  useEffect(() => {
+    // If specific filter is present, use it. Otherwise fetch all (handled by hook initially, but we need to handle updates/navigation)
+    // Actually hook fetches on mount. If we have params, we should probably refetch.
+    // To avoid double fetch on mount, we might need to adjust hook, but let's just refetch for now.
+    if (categoryFilter) {
+      fetchProducts({ category: categoryFilter });
+    } else {
+      fetchProducts();
+    }
+  }, [categoryFilter]);
+
+  const clearFilter = () => {
+    setSearchParams({});
+  };
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
@@ -23,7 +41,20 @@ const ProductsList = () => {
   return (
     <div className="bg-white rounded-lg shadow p-6">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">Products / Spare Parts</h2>
+        <div>
+          <h2 className="text-2xl font-bold text-gray-800">
+            Products / Spare Parts
+            {categoryFilter && (
+              <span className="ml-4 text-base font-normal text-gray-500 bg-gray-100 px-3 py-1 rounded-full inline-flex items-center">
+                Category: <span className="font-bold text-gray-800 ml-1 capitalize">{categoryFilter}</span>
+                <button onClick={clearFilter} className="ml-2 text-gray-400 hover:text-red-500">
+                  <FaTimes />
+                </button>
+              </span>
+            )}
+          </h2>
+          <p className="text-sm text-gray-500 mt-1">Total Products: <span className="font-bold text-blue-600">{products ? products.length : 0}</span></p>
+        </div>
         <Link
           to="/admin/products/new"
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"

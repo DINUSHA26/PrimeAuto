@@ -9,12 +9,16 @@ import Login from './pages/admin/Login';
 import Dashboard from './pages/admin/Dashboard';
 import ProductsList from './pages/Products/ProductsList';
 import ProductForm from './pages/Products/ProductForm';
+import CategoriesList from './pages/Products/CategoriesList';
 import UsersList from './pages/Users/UsersList';
 import UserForm from './pages/Users/UserForm';
+import Settings from './pages/admin/Settings';
 import ServicesList from './pages/Services/ServicesList';
 import ServiceForm from './pages/Services/ServiceForm';
 import BookingsList from './pages/Bookings/BookingsList';
 import OrdersList from './pages/Orders/OrdersList';
+import CustomersList from './pages/Customers/CustomersList';
+import CustomerDetails from './pages/Customers/CustomerDetails';
 
 // Components
 
@@ -98,6 +102,17 @@ function AppRoutes() {
             <ProtectedRoute>
               <AdminLayout>
                 <ProductForm />
+              </AdminLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/categories"
+          element={
+            <ProtectedRoute>
+              <AdminLayout>
+                <CategoriesList />
               </AdminLayout>
             </ProtectedRoute>
           }
@@ -191,6 +206,40 @@ function AppRoutes() {
             <ProtectedRoute>
               <AdminLayout>
                 <UserForm />
+              </AdminLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Customer Routes */}
+        <Route
+          path="/admin/customers"
+          element={
+            <ProtectedRoute>
+              <AdminLayout>
+                <CustomersList />
+              </AdminLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/customers/:id"
+          element={
+            <ProtectedRoute>
+              <AdminLayout>
+                <CustomerDetails />
+              </AdminLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/settings"
+          element={
+            <ProtectedRoute>
+              <AdminLayout>
+                <Settings />
               </AdminLayout>
             </ProtectedRoute>
           }

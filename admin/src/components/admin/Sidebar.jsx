@@ -11,6 +11,8 @@ import {
     FaSignOutAlt,
     FaCog,
     FaTruck,
+    FaUserCircle,
+    FaTags,
 } from 'react-icons/fa';
 
 
@@ -33,6 +35,12 @@ const Sidebar = () => {
             roles: ['SUPER_ADMIN', 'ADMIN', 'INVENTORY_STAFF']
         },
         {
+            path: '/admin/categories',
+            label: 'Categories',
+            icon: FaTags,
+            roles: ['SUPER_ADMIN', 'ADMIN', 'INVENTORY_STAFF']
+        },
+        {
             path: '/admin/orders',
             label: 'Product Orders',
             icon: FaTruck,
@@ -46,6 +54,12 @@ const Sidebar = () => {
         },
 
         {
+            path: '/admin/customers',
+            label: 'Customers',
+            icon: FaUserCircle,
+            roles: ['SUPER_ADMIN', 'ADMIN', 'CUSTOMER_MANAGER']
+        },
+        {
             path: '/admin/bookings',
             label: 'Bookings',
             icon: FaCalendarAlt,
@@ -53,7 +67,7 @@ const Sidebar = () => {
         },
         {
             path: '/admin/users',
-            label: 'Admins & Users',
+            label: 'Admins & Staff',
             icon: FaUsers,
             roles: ['SUPER_ADMIN']
         },
@@ -71,7 +85,7 @@ const Sidebar = () => {
     };
 
     return (
-        <div className="w-72 bg-gradient-to-b from-slate-900 to-slate-800 text-white min-h-screen flex flex-col shadow-2xl z-20 font-sans">
+        <div className="w-72 bg-gradient-to-b from-slate-900 to-slate-800 text-white h-screen sticky top-0 flex flex-col shadow-2xl z-20 font-sans">
             {/* Brand Header */}
             <div className="p-8 pb-4">
                 <div className="flex items-center gap-3 mb-2">
@@ -94,18 +108,18 @@ const Sidebar = () => {
                             key={item.path}
                             to={item.path}
                             className={({ isActive }) =>
-                                `flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all duration-200 group relative ${isActive
-                                    ? 'bg-blue-600/10 text-blue-400 shadow-sm'
-                                    : 'text-slate-400 hover:text-white hover:bg-white/5'
+                                `flex items-center gap-4 px-4 py-4 rounded-xl transition-all duration-300 group relative mb-5 border ${isActive
+                                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30 border-blue-500/50 scale-[1.02]'
+                                    : 'bg-slate-800/30 text-slate-400 border-transparent hover:bg-slate-800 hover:text-white hover:border-slate-700'
                                 }`
                             }
                         >
                             {({ isActive }) => (
                                 <>
-                                    <Icon className={`text-lg transition-colors ${isActive ? 'text-blue-500' : 'text-slate-500 group-hover:text-slate-300'}`} />
-                                    <span className="font-medium text-sm">{item.label}</span>
+                                    <Icon className={`text-xl transition-colors ${isActive ? 'text-white' : 'text-slate-500 group-hover:text-blue-400'}`} />
+                                    <span className="font-semibold text-base tracking-wide">{item.label}</span>
                                     {isActive && (
-                                        <div className="absolute right-2 w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.6)]" />
+                                        <div className="absolute right-3 w-2 h-2 rounded-full bg-white shadow-sm" />
                                     )}
                                 </>
                             )}
@@ -128,6 +142,7 @@ const Sidebar = () => {
 
                 <div className="flex gap-2">
                     <button
+                        onClick={() => navigate('/admin/settings')}
                         className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300 text-xs font-medium transition-all duration-200"
                     >
                         <FaCog /> Settings
