@@ -30,26 +30,44 @@ const app = express();
 // =====================
 // Middleware
 // =====================
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",                  // local frontend
+      "https://primeauto-frontend.onrender.com" // deployed frontend
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true
+  })
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Static uploads
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Request logger (dev)
+// Request logger
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.originalUrl}`);
   next();
 });
 
 // =====================
-// Base API Route (FIX)
+// Base Routes
 // =====================
+app.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "PrimeAuto Backend is running 🚀"
+  });
+});
+
 app.get("/api", (req, res) => {
   res.status(200).json({
     success: true,
-    message: "Vehicle Service Management System API 🚀",
+    message: "Vehicle Service Management System API",
     endpoints: [
       "/api/health",
       "/api/services",
@@ -93,7 +111,7 @@ app.get("/api/health", (req, res) => {
 });
 
 // =====================
-// 404 Handler (LAST)
+// 404 Handler
 // =====================
 app.use((req, res) => {
   res.status(404).json({
@@ -123,8 +141,6 @@ const startServer = async () => {
     await connectDB();
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
-      console.log(`📍 API Root: http://localhost:${PORT}/api`);
-      console.log(`🏥 Health: http://localhost:${PORT}/api/health`);
     });
   } catch (error) {
     console.error("❌ Server failed to start:", error.message);
