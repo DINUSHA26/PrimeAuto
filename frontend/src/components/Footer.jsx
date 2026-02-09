@@ -13,7 +13,7 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white mt-auto">
       <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About Section */}
           <div>
             <h3 className="text-xl font-bold mb-4">PrimeAuto</h3>
@@ -77,6 +77,45 @@ const Footer = () => {
                   className="text-gray-400 hover:text-blue-400 transition"
                 >
                   Book Service
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Support Section */}
+          <div>
+            <h3 className="text-xl font-bold mb-4">Support</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link
+                  to="/shipping-policy"
+                  className="text-gray-400 hover:text-blue-400 transition"
+                >
+                  Shipping Policy
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/returns-exchanges"
+                  className="text-gray-400 hover:text-blue-400 transition"
+                >
+                  Returns & Exchanges
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/faqs"
+                  className="text-gray-400 hover:text-blue-400 transition"
+                >
+                  FAQs
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/privacy-policy"
+                  className="text-gray-400 hover:text-blue-400 transition"
+                >
+                  Privacy Policy
                 </Link>
               </li>
             </ul>
