@@ -13,6 +13,10 @@ import Checkout from './pages/Checkout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
+import ShippingPolicy from './pages/ShippingPolicy';
+import ReturnsExchanges from './pages/ReturnsExchanges';
+import FAQs from './pages/FAQs';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 
 function App() {
   return (
@@ -33,6 +37,10 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/shipping-policy" element={<ShippingPolicy />} />
+            <Route path="/returns-exchanges" element={<ReturnsExchanges />} />
+            <Route path="/faqs" element={<FAQs />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           </Routes>
 
         </main>
