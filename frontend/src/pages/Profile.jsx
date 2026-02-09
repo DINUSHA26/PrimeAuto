@@ -193,7 +193,15 @@ const Profile = () => {
                                                         <div className="flex gap-2 overflow-x-auto pb-2">
                                                             {order.orderItems.map((item, idx) => (
                                                                 <div key={idx} className="flex-shrink-0 w-12 h-12 rounded-lg bg-white border border-gray-200 flex items-center justify-center overflow-hidden" title={item.name}>
-                                                                    <img src={getImageUrl(item.image) || 'https://via.placeholder.com/150'} alt="" className="w-full h-full object-cover" />
+                                                                    <img
+                                                                        src={getImageUrl(item.imageUrl || item.image) || 'https://via.placeholder.com/150?text=No+Image'}
+                                                                        alt=""
+                                                                        className="w-full h-full object-cover"
+                                                                        onError={(e) => {
+                                                                            e.target.onerror = null;
+                                                                            e.target.src = 'https://via.placeholder.com/150?text=No+Image';
+                                                                        }}
+                                                                    />
                                                                 </div>
                                                             ))}
                                                             {order.orderItems.length > 5 && (

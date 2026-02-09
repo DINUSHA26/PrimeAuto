@@ -83,7 +83,8 @@ const spareParts = [
       contact: '+1234567890',
       email: 'sales@autoparts.com'
     },
-    isActive: true
+    isActive: true,
+    imageUrl: 'https://images.unsplash.com/photo-1635773054018-22c60e869792?auto=format&fit=crop&w=800&q=80'
   },
   {
     partNumber: 'BRK-PAD-002',
@@ -101,7 +102,8 @@ const spareParts = [
       contact: '+1234567891',
       email: 'orders@brakesolutions.com'
     },
-    isActive: true
+    isActive: true,
+    imageUrl: 'https://images.unsplash.com/photo-1594145061922-378378877546?auto=format&fit=crop&w=800&q=80'
   },
   {
     partNumber: 'FIL-AIR-003',
@@ -114,7 +116,8 @@ const spareParts = [
     quantity: 40,
     minStockLevel: 15,
     location: { shelf: 'C1', bin: '08' },
-    isActive: true
+    isActive: true,
+    imageUrl: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=800&q=80'
   },
   {
     partNumber: 'BAT-STD-004',
@@ -132,7 +135,8 @@ const spareParts = [
       contact: '+1234567892',
       email: 'info@batteryworld.com'
     },
-    isActive: true
+    isActive: true,
+    imageUrl: 'https://images.unsplash.com/photo-1634812384918-646bc3205342?auto=format&fit=crop&w=800&q=80'
   },
   {
     partNumber: 'TIRE-ALL-005',
@@ -145,7 +149,8 @@ const spareParts = [
     quantity: 8,
     minStockLevel: 12,
     location: { shelf: 'E1', bin: '30' },
-    isActive: true
+    isActive: true,
+    imageUrl: 'https://images.unsplash.com/photo-1549137706-99321749bf4a?auto=format&fit=crop&w=800&q=80'
   },
   {
     partNumber: 'FIL-OIL-006',
@@ -158,7 +163,8 @@ const spareParts = [
     quantity: 60,
     minStockLevel: 20,
     location: { shelf: 'C1', bin: '09' },
-    isActive: true
+    isActive: true,
+    imageUrl: 'https://images.unsplash.com/photo-1627389955609-70bc31362e49?auto=format&fit=crop&w=800&q=80'
   },
   {
     partNumber: 'SUS-SHK-007',
@@ -171,7 +177,8 @@ const spareParts = [
     quantity: 12,
     minStockLevel: 6,
     location: { shelf: 'F2', bin: '18' },
-    isActive: true
+    isActive: true,
+    imageUrl: 'https://images.unsplash.com/photo-1594145062400-0df154e207d5?auto=format&fit=crop&w=800&q=80'
   },
   {
     partNumber: 'ELC-SPK-008',
@@ -184,7 +191,8 @@ const spareParts = [
     quantity: 30,
     minStockLevel: 10,
     location: { shelf: 'D1', bin: '12' },
-    isActive: true
+    isActive: true,
+    imageUrl: 'https://images.unsplash.com/photo-1616788473722-6b9472d47631?auto=format&fit=crop&w=800&q=80'
   },
   {
     partNumber: 'FLU-CLT-009',
@@ -197,7 +205,8 @@ const spareParts = [
     quantity: 45,
     minStockLevel: 15,
     location: { shelf: 'A2', bin: '05' },
-    isActive: true
+    isActive: true,
+    imageUrl: 'https://images.unsplash.com/photo-1635366479893-ecb7b966cf10?auto=format&fit=crop&w=800&q=80'
   },
   {
     partNumber: 'BRK-DSC-010',
@@ -210,7 +219,8 @@ const spareParts = [
     quantity: 10,
     minStockLevel: 4,
     location: { shelf: 'B2', bin: '16' },
-    isActive: true
+    isActive: true,
+    imageUrl: 'https://images.unsplash.com/photo-1594145061448-6a97120689b5?auto=format&fit=crop&w=800&q=80'
   }
 ];
 
@@ -237,7 +247,7 @@ const seedData = async () => {
     console.log('\n📊 Summary:');
     console.log(`   - Services: ${createdServices.length}`);
     console.log(`   - Spare Parts: ${createdParts.length}`);
-    
+
     process.exit(0);
   } catch (error) {
     console.error('❌ Error seeding database:', error.message);

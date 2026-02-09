@@ -22,6 +22,10 @@ const ProductCard = ({ product }) => {
             src={getImageUrl(product.imageUrl)}
             alt={product.name}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = 'https://via.placeholder.com/300?text=No+Image';
+            }}
           />
         ) : (
           <div className="text-gray-300 text-5xl">

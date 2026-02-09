@@ -196,9 +196,13 @@ const Checkout = () => {
                                     <div key={item._id} className="flex gap-4">
                                         <div className="w-16 h-16 rounded-xl bg-gray-50 flex-shrink-0 overflow-hidden">
                                             <img
-                                                src={getImageUrl(item.image) || 'https://via.placeholder.com/150'}
+                                                src={getImageUrl(item.imageUrl || item.image) || 'https://via.placeholder.com/150?text=No+Image'}
                                                 alt={item.name}
                                                 className="w-full h-full object-cover"
+                                                onError={(e) => {
+                                                    e.target.onerror = null;
+                                                    e.target.src = 'https://via.placeholder.com/150?text=No+Image';
+                                                }}
                                             />
                                         </div>
                                         <div className="flex-grow">

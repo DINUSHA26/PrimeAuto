@@ -91,6 +91,10 @@ const ProductDetails = () => {
                 src={getImageUrl(product.imageUrl)}
                 alt={product.name}
                 className="w-full h-96 object-cover"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = 'https://via.placeholder.com/600?text=No+Image';
+                }}
               />
             ) : (
               <div className="w-full h-96 flex items-center justify-center">

@@ -13,7 +13,14 @@ const api = axios.create({
 export const getImageUrl = (path) => {
   if (!path) return '';
   if (path.startsWith('http')) return path;
-  return `${BASE_URL}${path}`;
+
+  // Normalize BASE_URL (remove trailing slash)
+  const baseUrl = BASE_URL.endsWith('/') ? BASE_URL.slice(0, -1) : BASE_URL;
+
+  // Normalize path (ensure leading slash)
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+
+  return `${baseUrl}${normalizedPath}`;
 };
 
 // Request interceptor (optional - for adding auth tokens later)

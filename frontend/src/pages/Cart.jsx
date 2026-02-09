@@ -36,9 +36,13 @@ const Cart = () => {
                             <div key={item._id} className="bg-white p-6 rounded-3xl shadow-sm flex flex-col sm:flex-row items-center gap-6 border border-gray-100">
                                 <div className="w-24 h-24 rounded-2xl bg-gray-100 overflow-hidden flex-shrink-0">
                                     <img
-                                        src={getImageUrl(item.image) || 'https://via.placeholder.com/150'}
+                                        src={getImageUrl(item.imageUrl || item.image) || 'https://via.placeholder.com/150?text=No+Image'}
                                         alt={item.name}
                                         className="w-full h-full object-cover"
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = 'https://via.placeholder.com/150?text=No+Image';
+                                        }}
                                     />
                                 </div>
 
