@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import api from '../services/api';
+import api, { getImageUrl } from '../services/api';
 import { FaUser, FaBox, FaCalendarCheck, FaSignOutAlt, FaChevronRight, FaClock, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
@@ -193,7 +193,7 @@ const Profile = () => {
                                                         <div className="flex gap-2 overflow-x-auto pb-2">
                                                             {order.orderItems.map((item, idx) => (
                                                                 <div key={idx} className="flex-shrink-0 w-12 h-12 rounded-lg bg-white border border-gray-200 flex items-center justify-center overflow-hidden" title={item.name}>
-                                                                    <img src={item.image ? `http://localhost:5000${item.image}` : 'https://via.placeholder.com/150'} alt="" className="w-full h-full object-cover" />
+                                                                    <img src={getImageUrl(item.image) || 'https://via.placeholder.com/150'} alt="" className="w-full h-full object-cover" />
                                                                 </div>
                                                             ))}
                                                             {order.orderItems.length > 5 && (

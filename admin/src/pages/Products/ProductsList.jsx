@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { getImageUrl } from '../../services/api';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useProducts } from '../../hooks/useProducts';
 import { toast } from 'react-toastify';
@@ -85,7 +86,7 @@ const ProductsList = () => {
                       {product.imageUrl ? (
                         <img
                           className="h-10 w-10 rounded-full object-cover"
-                          src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`}
+                          src={getImageUrl(product.imageUrl)}
                           alt=""
                         />
                       ) : (

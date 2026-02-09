@@ -82,7 +82,7 @@ export const getAvailability = async (req, res) => {
       });
     }
 
-    const serviceDuration = service.duration; // in minutes
+    const serviceDuration = service.duration || 60; // Default to 60 minutes if undefined
     const bookingDate = new Date(date);
 
     // Validate date is not in the past

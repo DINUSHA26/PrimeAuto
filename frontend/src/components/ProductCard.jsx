@@ -2,6 +2,7 @@
 import { Link } from 'react-router-dom';
 import { FaShoppingCart, FaEye, FaPlus } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
+import { getImageUrl } from '../services/api';
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
@@ -18,7 +19,7 @@ const ProductCard = ({ product }) => {
       <div className="h-56 bg-gray-50 flex items-center justify-center overflow-hidden relative">
         {product.imageUrl ? (
           <img
-            src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`}
+            src={getImageUrl(product.imageUrl)}
             alt={product.name}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
           />

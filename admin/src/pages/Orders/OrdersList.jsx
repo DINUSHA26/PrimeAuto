@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import api from '../../services/api';
 import { FaEye, FaCheck, FaTruck, FaTimes, FaSearch, FaMapMarkerAlt, FaPhone, FaBoxOpen } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import { getImageUrl } from '../../services/api';
 
 const OrdersList = () => {
     const [orders, setOrders] = useState([]);
@@ -290,7 +291,7 @@ const OrdersList = () => {
                                                 <div key={idx} className="bg-white p-3 rounded-xl flex items-center gap-4 border border-slate-100">
                                                     <div className="w-14 h-14 rounded-lg bg-slate-50 flex-shrink-0 p-1">
                                                         <img
-                                                            src={item.image ? `http://localhost:5000${item.image}` : 'https://via.placeholder.com/150'}
+                                                            src={getImageUrl(item.image) || 'https://via.placeholder.com/150'}
                                                             alt={item.name}
                                                             className="w-full h-full object-cover rounded-md"
                                                         />

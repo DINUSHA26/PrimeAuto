@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getProductById } from '../services/productService';
+import { getImageUrl } from '../services/api';
 import PageHeader from '../components/PageHeader';
 import Button from '../components/primary/Button';
 import { FaArrowLeft, FaShoppingCart, FaCheck, FaTimes } from 'react-icons/fa';
@@ -87,7 +88,7 @@ const ProductDetails = () => {
           <div className="bg-gray-200 rounded-lg overflow-hidden">
             {product.imageUrl ? (
               <img
-                src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`}
+                src={getImageUrl(product.imageUrl)}
                 alt={product.name}
                 className="w-full h-96 object-cover"
               />

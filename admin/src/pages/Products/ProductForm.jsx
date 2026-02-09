@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useProducts } from '../../hooks/useProducts';
 import productService from '../../services/productService';
 import { toast } from 'react-toastify';
+import { getImageUrl } from '../../services/api';
 
 const ProductForm = () => {
   const { id } = useParams();
@@ -96,7 +97,7 @@ const ProductForm = () => {
             imageUrl: product.imageUrl || ''
           });
           if (product.imageUrl) {
-            setImagePreview(`http://localhost:5000${product.imageUrl}`);
+            setImagePreview(getImageUrl(product.imageUrl));
           }
         } catch (error) {
           toast.error('Failed to fetch product details');

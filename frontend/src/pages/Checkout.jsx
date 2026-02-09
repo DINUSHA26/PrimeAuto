@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
-import api from '../services/api';
+import api, { getImageUrl } from '../services/api';
 import { FaTruck, FaCreditCard, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
 
 const Checkout = () => {
@@ -196,7 +196,7 @@ const Checkout = () => {
                                     <div key={item._id} className="flex gap-4">
                                         <div className="w-16 h-16 rounded-xl bg-gray-50 flex-shrink-0 overflow-hidden">
                                             <img
-                                                src={item.image ? `http://localhost:5000${item.image}` : 'https://via.placeholder.com/150'}
+                                                src={getImageUrl(item.image) || 'https://via.placeholder.com/150'}
                                                 alt={item.name}
                                                 className="w-full h-full object-cover"
                                             />

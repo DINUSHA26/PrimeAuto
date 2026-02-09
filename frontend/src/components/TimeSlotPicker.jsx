@@ -39,7 +39,8 @@ const TimeSlotPicker = ({ selectedDate, serviceId, selectedSlot, onSlotSelect })
                 setAvailableSlots(slots);
             } catch (err) {
                 console.error('Failed to fetch availability:', err);
-                setError('Failed to load available slots. Please try again.');
+                const errorMsg = err.response?.data?.message || err.message || 'Failed to load available slots.';
+                setError(errorMsg);
                 setAvailableSlots([]);
             } finally {
                 setLoading(false);
@@ -66,6 +67,7 @@ const TimeSlotPicker = ({ selectedDate, serviceId, selectedSlot, onSlotSelect })
                     <div className="absolute inset-0 rounded-full border-4 border-blue-50 border-t-blue-600 animate-spin"></div>
                 </div>
                 <p className="text-gray-500 font-medium">Scanning availability...</p>
+                <p className="text-xs text-gray-400 mt-2">This may take up to a minute if the server is waking up.</p>
             </div>
         );
     }

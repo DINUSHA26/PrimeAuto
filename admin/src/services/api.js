@@ -4,9 +4,18 @@ import Cookies from 'js-cookie';
 const TOKEN_KEY = 'primeauto_token';
 
 // Create axios instance
+const BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.MODE === 'production' ? 'https://primeauto-backend.onrender.com' : 'http://localhost:5000');
+
+// Create axios instance
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL + "/api"|| 'http://localhost:5000/api'
+  baseURL: `${BASE_URL}/api`,
 });
+
+export const getImageUrl = (path) => {
+  if (!path) return '';
+  if (path.startsWith('http')) return path;
+  return `${BASE_URL}${path}`;
+};
 
 // Request interceptor - attach token to all requests
 api.interceptors.request.use(

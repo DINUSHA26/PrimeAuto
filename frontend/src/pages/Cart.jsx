@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { FaTrash, FaPlus, FaMinus, FaShoppingCart, FaArrowRight, FaArrowLeft } from 'react-icons/fa';
+import { getImageUrl } from '../services/api';
 
 const Cart = () => {
     const { cartItems, removeFromCart, updateQuantity, totalPrice, itemsCount } = useCart();
@@ -35,7 +36,7 @@ const Cart = () => {
                             <div key={item._id} className="bg-white p-6 rounded-3xl shadow-sm flex flex-col sm:flex-row items-center gap-6 border border-gray-100">
                                 <div className="w-24 h-24 rounded-2xl bg-gray-100 overflow-hidden flex-shrink-0">
                                     <img
-                                        src={item.image ? `http://localhost:5000${item.image}` : 'https://via.placeholder.com/150'}
+                                        src={getImageUrl(item.image) || 'https://via.placeholder.com/150'}
                                         alt={item.name}
                                         className="w-full h-full object-cover"
                                     />
