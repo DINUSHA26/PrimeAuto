@@ -1,5 +1,6 @@
 import { useState } from "react";
-import authService from "../../services/authService";
+import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -7,18 +8,18 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
-      const data = await authService.login(email, password);
-
-      console.log("Login success:", data);
-
-      // Redirect after login
-      window.location.href = "/admin/dashboard";
+      await login(email, password);
+      // Client-side redirect to dashboard
+      navigate("/admin/dashboard", { replace: true });
     } catch (err) {
       setError(err.message || "Login failed");
     } finally {

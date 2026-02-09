@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
-import authService from '../../services/authService';
 import {
     FaChartPie,
     FaBox,
@@ -17,7 +16,7 @@ import {
 
 
 const Sidebar = () => {
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
     const navigate = useNavigate();
 
     // Define menu items
@@ -79,9 +78,9 @@ const Sidebar = () => {
         return allNavItems.filter(item => item.roles.includes(user.role));
     }, [user]);
 
-    const handleLogout = () => {
-        authService.logout();
-        window.location.href = '/admin/login';
+    const handleLogout = async () => {
+        await logout();
+        navigate('/admin/login', { replace: true });
     };
 
     return (
