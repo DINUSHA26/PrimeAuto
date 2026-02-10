@@ -33,9 +33,7 @@ const storage = new CloudinaryStorage({
 // Init Upload
 const upload = multer({
     storage: storage,
-    limits: { fileSize: 5000000 }, // 5MB
-    // fileFilter is optional if relying on Cloudinary's allowed_formats, 
-    // but explicit filter can save a network request if file type is wrong.
+    limits: { fileSize: 5000000 },
     fileFilter: function (req, file, cb) {
         const filetypes = /jpeg|jpg|png|webp/;
         const mimetype = filetypes.test(file.mimetype);
@@ -47,4 +45,6 @@ const upload = multer({
         cb(new Error('Error: Images Only!'));
     }
 });
+
+export default upload;
 
