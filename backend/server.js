@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
+import fs from "fs";
 import { fileURLToPath } from "url";
 import connectDB from "./config/db.js";
 
@@ -27,6 +28,8 @@ const __dirname = path.dirname(__filename);
 // App init
 const app = express();
 
+
+
 // =====================
 // Middleware
 // =====================
@@ -34,8 +37,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Static uploads
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 // Request logger (dev)
 app.use((req, res, next) => {

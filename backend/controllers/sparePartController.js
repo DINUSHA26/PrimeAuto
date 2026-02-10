@@ -126,7 +126,7 @@ export const createSparePart = async (req, res) => {
     }
 
     if (req.file) {
-      partData.imageUrl = `/uploads/${req.file.filename}`;
+      partData.imageUrl = req.file.path;
     }
 
     const sparePart = await SparePart.create(partData);
@@ -171,7 +171,7 @@ export const updateSparePart = async (req, res) => {
     }
 
     if (req.file) {
-      partData.imageUrl = `/uploads/${req.file.filename}`;
+      partData.imageUrl = req.file.path;
     }
 
     const sparePart = await SparePart.findByIdAndUpdate(
